@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.808.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "elastic-apm-sample", "elastic-apm-sample\elastic-apm-sample.csproj", "{E7828869-62A1-4292-8F05-B5EEDFA29F99}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E7828869-62A1-4292-8F05-B5EEDFA29F99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7828869-62A1-4292-8F05-B5EEDFA29F99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7828869-62A1-4292-8F05-B5EEDFA29F99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7828869-62A1-4292-8F05-B5EEDFA29F99}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4A3F52F5-D2F0-4EA3-8211-8EED93DE6669}
+	EndGlobalSection
+EndGlobal
