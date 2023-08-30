@@ -1,3 +1,6 @@
+using System;
+using System.Threading.Tasks;
+using Elastic.Apm.Api;
 using Elastic.Apm.NetCoreAll;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,6 +28,33 @@ namespace elastic_apm_sample
         {
         }
 
+
+        private async Task SayHelloToTomo(HttpContext context)
+        {
+
+
+            var transaction = Elastic.Apm.Agent
+                     .Tracer.StartTransaction("MyTransaction", ApiConstants.TypeRequest);
+
+            try
+            {
+                //application code that is captured as a transaction
+                await context.Response.WriteAsync("Hello tomo!");
+            }
+            catch (Exception e)
+            {
+                transaction.CaptureException(e);
+                throw;
+            }
+            finally
+            {
+                transaction.End();
+            }
+
+
+            
+        }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -33,8 +63,6 @@ namespace elastic_apm_sample
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            
 
             app.UseRouting();
 
@@ -45,11 +73,10 @@ namespace elastic_apm_sample
                     await context.Response.WriteAsync("Hello World!");
                 });
 
-                endpoints.MapGet("/tomo", async context =>
-                {
-                    await context.Response.WriteAsync("Hello tomo!");
-                });
+                endpoints.MapGet("/tomo", SayHelloToTomo);
             });
         }
+
+
     }
 }
