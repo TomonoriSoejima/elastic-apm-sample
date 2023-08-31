@@ -91,34 +91,44 @@ namespace elastic_apm_sample
 
 
 
-            //"Persist Security Info=False;User ID=*****;Password=*****;Initial Catalog=AdventureWorks;Server=MySqlServer;Encrypt=True;"
-
-
-            string connectionString = "Server=localhost;Database=;User Id=sa;Password=Nzn6M_3M-X1s;";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            ITransaction transaction = Elastic.Apm.Agent.Tracer.CurrentTransaction;
+            var asyncResult = await transaction.CaptureSpan("Select FROM MySampleTable", ApiConstants.TypeDb, async (s) =>
             {
-                connection.Open();
 
-                string sqlQuery = "SELECT * FROM MySampleTable";
 
-                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                string connectionString = "Server=localhost;Database=;User Id=sa;Password=Nzn6M_3M-X1s;";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            int id = reader.GetInt32(0);
-                            string firstName = reader.GetString(1);
-                            string lastName = reader.GetString(2);
-                            int age = reader.GetInt32(3);
-                            string email = reader.GetString(4);
+                    connection.Open();
 
-                            Console.WriteLine($"ID: {id}, FirstName: {firstName}, LastName: {lastName}, Age: {age}, Email: {email}");
+                    string sqlQuery = "SELECT * FROM MySampleTable";
+
+                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                int id = reader.GetInt32(0);
+                                string firstName = reader.GetString(1);
+                                string lastName = reader.GetString(2);
+                                int age = reader.GetInt32(3);
+                                string email = reader.GetString(4);
+
+                                Console.WriteLine($"ID: {id}, FirstName: {firstName}, LastName: {lastName}, Age: {age}, Email: {email}");
+                            }
                         }
                     }
+                    
                 }
-            }
+
+                await Task.Delay(500); //sample async code
+                
+                return 42;
+            });
+
+
         }
             
         
